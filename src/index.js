@@ -22,7 +22,7 @@ class Game extends React.Component{
                     <span style={{color: '#6DCE93'}}>Cl</span><span style={{color: '#4798B8'}}>ic</span>
                     <span style={{color: '#B282CB'}}>ke</span><span style={{color: 'pink'}}>r</span></h1>
                 <div className="game-board">
-                    <Board startTime = '5' status={this.state.status}/>
+                    <Board startTime = '30' status={this.state.status}/>
                 </div>
             </div>
         );
