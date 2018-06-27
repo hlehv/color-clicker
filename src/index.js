@@ -207,7 +207,8 @@ class Board extends React.Component{
                         <p className="instructions">                  
 
                         Instructions: <span style={{color: '#F7B75D'}}> When you press start a word will be displayed. </span>
-                        <span style={{color: '#FEDE4B'}}> Select the word below that represents the <span style={{color: '#6DCE93'}}>color</span> of the above word. </span> 
+                       <br /> <span style={{color: '#FEDE4B'}}> Select the word below that represents the <span style={{color: '#B282CB'}}>color</span> of the above word. </span> 
+                        <br /><br /><span style={{color: '#6DCE93'}}> You have 30 seconds to get as many words right as possible.</span>
                         
                         </p>
 
