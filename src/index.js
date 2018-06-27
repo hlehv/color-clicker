@@ -149,12 +149,12 @@ class Board extends React.Component{
                     target: newTarget,
                 });
                 alert(`Game Over!\nYour score: ${oldScore}`);
-                let name = prompt('What is your name?', 'Gilgamesh')
+                /*let name = prompt('What is your name?', 'Gilgamesh')
                 let names = this.state.scoreboard;
                 names.push({name: name, score: oldScore});
-                console.log(names);
+                console.log(names);*/
                 this.setState({
-                    scoreboard: names,
+                   // scoreboard: names,
                     status: 'beginning',
                 })
             }
@@ -171,7 +171,7 @@ class Board extends React.Component{
                 <div>
                     <div className="score">Score: {this.state.score}</div>
                     <div className="timer">Timer: {this.state.timeLeft}</div>
-                    <div className="scoreBoard">Scoreboard: <ol>{this.displayScores()}</ol></div>
+                    {/*<div className="scoreBoard">Scoreboard: <ol>{this.displayScores()}</ol></div>*/}
                     <div className="target">
                     Select the name of the color of this word: 
                     <div>
