@@ -13,7 +13,6 @@ class Game extends React.Component{
         this.state = {
             status: 'start'
         }
-        
     }
     render(){
         return (
@@ -23,7 +22,7 @@ class Game extends React.Component{
                     <span style={{color: '#6DCE93'}}>Cl</span><span style={{color: '#4798B8'}}>ic</span>
                     <span style={{color: '#B282CB'}}>ke</span><span style={{color: 'pink'}}>r</span></h1>
                 <div className="game-board">
-                    <Board startTime = '30'/>
+                    <Board startTime = '30' status={this.state.status}/>
                 </div>
             </div>
         );
@@ -38,7 +37,7 @@ class Board extends React.Component{
 
         this.state = {
             target: target,
-            status: 'start',
+            status: this.props.status,
             timeLeft: this.props.startTime,
             score: 0,
             squares: squares,
@@ -128,6 +127,7 @@ class Board extends React.Component{
         }
         else{
             this.setState({
+                score: this.state.score-1,
                 status: 'incorrect'
             })
         }
@@ -152,32 +152,39 @@ class Board extends React.Component{
 
 
     render(){
-        return (
-            <div>
-                <div className="score">Score: {this.state.score}</div>
-                <div className="timer">Timer: {this.state.timeLeft}</div>
-                <div className="scoreBoard">Scoreboard: <ol>{this.displayScores()}</ol></div>
-                <div className="target">
-                Select the name of the color of this word: 
+        if (this.props.status==='start'){
+            return (
                 <div>
-                    {this.renderTarget()}
-                </div>
-                below.
-                </div>
-                <div className="board">
-                    <div className="board-row">
-                        {this.renderSquare(0)}
-                        {this.renderSquare(1)}
-                        {this.renderSquare(2)}
+                    <div className="score">Score: {this.state.score}</div>
+                    <div className="timer">Timer: {this.state.timeLeft}</div>
+                    <div className="scoreBoard">Scoreboard: <ol>{this.displayScores()}</ol></div>
+                    <div className="target">
+                    Select the name of the color of this word: 
+                    <div>
+                        {this.renderTarget()}
                     </div>
-                    <div className="board-row">
-                        {this.renderSquare(3)}
-                        {this.renderSquare(4)}
-                        {this.renderSquare(5)}
+                    below.
+                    </div>
+                    <div className="board">
+                        <div className="board-row">
+                            {this.renderSquare(0)}
+                            {this.renderSquare(1)}
+                            {this.renderSquare(2)}
+                        </div>
+                        <div className="board-row">
+                            {this.renderSquare(3)}
+                            {this.renderSquare(4)}
+                            {this.renderSquare(5)}
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
+        else{
+            return(
+                <div className="placeholder"></div>
+            )
+        }
     }
 }
 
