@@ -11,7 +11,7 @@ class Game extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            status: 'start'
+            status: 'beginning'
         }
     }
     render(){
@@ -22,7 +22,7 @@ class Game extends React.Component{
                     <span style={{color: '#6DCE93'}}>Cl</span><span style={{color: '#4798B8'}}>ic</span>
                     <span style={{color: '#B282CB'}}>ke</span><span style={{color: 'pink'}}>r</span></h1>
                 <div className="game-board">
-                    <Board startTime = '30' status={this.state.status}/>
+                    <Board startTime = '5' status={this.state.status}/>
                 </div>
             </div>
         );
@@ -34,6 +34,8 @@ class Board extends React.Component{
         super(props);
         let squares = this.setSquares();
         let target = this.setTarget(squares);
+        // eslint-disable-next-line
+        let interID;
 
         this.state = {
             target: target,
@@ -43,33 +45,12 @@ class Board extends React.Component{
             squares: squares,
             scoreboard: [],
         };
+
+        this.handleStartClick = this.handleStartClick.bind(this);
     }
 
     componentDidMount(){
-        setInterval( () => {
-            this.setState({
-              timeLeft: this.state.timeLeft-1,
-            });
-            if (this.state.timeLeft <= 0){
-                let newSquares = this.setSquares();
-                let newTarget = this.setTarget(newSquares);
-                let oldScore = this.state.score;
-                this.setState({
-                    score: 0,
-                    timeLeft: this.props.startTime,
-                    squares: newSquares,
-                    target: newTarget,
-                });
-                alert(`Game Over!\nYour score: ${oldScore}`);
-                let name = prompt('What is your name?', 'Gilgamesh')
-                let names = this.state.scoreboard;
-                names.push({name: name, score: oldScore});
-                console.log(names);
-                this.setState({
-                    scoreboard: names,
-                })
-            }
-        }, 1000);
+
     }
 
     setSquares(){
@@ -122,13 +103,11 @@ class Board extends React.Component{
         if (squares[i].number===this.state.target.color){
             this.setState({
                 score: this.state.score +1,
-                status: 'correct'
             });
         }
         else{
             this.setState({
                 score: this.state.score-1,
-                status: 'incorrect'
             })
         }
         let newSquares = this.setSquares();
@@ -150,9 +129,44 @@ class Board extends React.Component{
         return result;
     }
 
+    handleStartClick(){
+        this.setState({
+            status: 'start',
+        });
+        console.log(this.state.status);
+        this.interID = setInterval( () => {
+            this.setState({
+            timeLeft: this.state.timeLeft-1,
+            });
+            if (this.state.timeLeft <= 0){
+                let newSquares = this.setSquares();
+                let newTarget = this.setTarget(newSquares);
+                let oldScore = this.state.score;
+                this.setState({
+                    score: 0,
+                    timeLeft: this.props.startTime,
+                    squares: newSquares,
+                    target: newTarget,
+                });
+                alert(`Game Over!\nYour score: ${oldScore}`);
+                let name = prompt('What is your name?', 'Gilgamesh')
+                let names = this.state.scoreboard;
+                names.push({name: name, score: oldScore});
+                console.log(names);
+                this.setState({
+                    scoreboard: names,
+                    status: 'beginning',
+                })
+            }
+        }, 1000);
+    }
+
+    endTimer(){
+        clearInterval(this.interID);
+    }
 
     render(){
-        if (this.props.status==='start'){
+        if (this.state.status==='start'){
             return (
                 <div>
                     <div className="score">Score: {this.state.score}</div>
@@ -179,10 +193,26 @@ class Board extends React.Component{
                     </div>
                 </div>
             );
-        }
-        else{
+        }else{
             return(
-                <div className="placeholder"></div>
+                <div>
+                    <div>
+                        {this.endTimer()}
+                        <div>
+                        <button className = "startButton" onClick={this.handleStartClick}>Start</button>
+                        </div>  
+
+                    </div>
+                    <div>
+                        <p className="instructions">                  
+
+                        Instructions: <span style={{color: '#F7B75D'}}> When you press start a word will be displayed. </span>
+                        <span style={{color: '#FEDE4B'}}> Select the word below that represents the <span style={{color: '#6DCE93'}}>color</span> of the above word. </span> 
+                        
+                        </p>
+
+                    </div>
+                </div>
             )
         }
     }
